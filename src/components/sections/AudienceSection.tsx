@@ -19,7 +19,7 @@ const personas = [
   {
     title: 'Enterprises',
     icon: Building,
-    description: 'Deploy AI with confidence, knowing you've addressed ethical and privacy concerns',
+    description: 'Deploy AI with confidence, knowing you have addressed ethical and privacy concerns',
     benefits: [
       'Enterprise-grade security and compliance features',
       'Governance frameworks for AI deployment',
