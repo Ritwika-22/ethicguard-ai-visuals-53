@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/components/ui/use-toast';
-import { Mail, Phone, Send, CheckCircle } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -46,7 +45,6 @@ const ContactSection = () => {
         description: formData.demoRequest 
           ? "We'll contact you shortly to schedule your demo." 
           : "We'll get back to you as soon as possible.",
-        icon: <CheckCircle className="text-ethic-green" />,
       });
       
       // Reset form
