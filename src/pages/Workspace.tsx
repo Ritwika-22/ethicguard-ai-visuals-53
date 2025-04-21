@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import ShadowModeTester from "@/components/ShadowModeTester";
 import PrivacyVisualizer from "@/components/PrivacyVisualizer";
+import ConsentManager from "@/components/ConsentManager";
 
 const WorkspaceTab = ({
   active,
@@ -99,20 +100,7 @@ export default function Workspace() {
 
         {activeTab === "privacy" && <PrivacyVisualizer />}
 
-        {activeTab === "consent" && (
-          <div>
-            <h2 className="text-2xl font-bold mb-4 text-foreground">
-              Consent Manager
-            </h2>
-            <p className="text-muted-foreground">
-              Configure and manage user consent options for AI interactions.
-            </p>
-            <div className="p-12 text-center text-muted-foreground bg-card rounded-lg border border-border mt-8">
-              <UserCheck className="w-12 h-12 mx-auto mb-4 text-accent opacity-50" />
-              <p>Consent Manager functionality would be implemented here.</p>
-            </div>
-          </div>
-        )}
+        {activeTab === "consent" && <ConsentManager />}
 
         {activeTab === "risk" && (
           <div>
@@ -145,4 +133,3 @@ export default function Workspace() {
     </div>
   );
 }
-
