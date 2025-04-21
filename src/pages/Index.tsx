@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
@@ -42,11 +43,17 @@ const Index = () => {
         {/* Removed <DemoSection /> */}
         <AudienceSection />
         <ContactSection />
-        {/* Add a workspace CTA */}
-        <div className="flex justify-center my-8">
+        
+        {/* More prominent workspace CTA */}
+        <div className="flex flex-col items-center my-16 py-12 bg-ethic-lightgray">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4 text-ethic-navy">Try Our Interactive Workspace</h2>
+          <p className="text-lg mb-6 text-center max-w-2xl px-4">
+            Experience all features in our interactive workspace with Shadow Mode, Privacy Visualizer, 
+            Consent Manager, Risk Monitor, and Settings panels.
+          </p>
           <Link
             to="/workspace"
-            className="px-8 py-3 rounded-lg text-lg font-semibold bg-ethic-navy text-white shadow-lg hover:bg-ethic-navy/90 transition"
+            className="px-8 py-4 rounded-lg text-lg font-semibold bg-ethic-navy text-white shadow-lg hover:bg-ethic-navy/90 transition-transform hover:scale-105"
           >
             Open Workspace
           </Link>
