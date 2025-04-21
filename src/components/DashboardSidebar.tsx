@@ -14,46 +14,47 @@ import { useLocation, NavLink } from "react-router-dom";
 import {
   Shield,
   Eye,
-  User,
-  Activity,
+  UserCheck,
+  Monitor,
   Settings,
 } from "lucide-react";
 
+// Sidebar items, now matching your desired icons and labels.
 const sidebarItems = [
   {
     key: "shadow",
     label: "Shadow Mode",
     icon: Shield,
     path: "/dashboard/shadow",
-    tooltip: "Safely test AI decisions in the background."
+    tooltip: "Safely test AI decisions in real time.",
   },
   {
     key: "visualizer",
     label: "Privacy Visualizer",
     icon: Eye,
     path: "/dashboard/visualizer",
-    tooltip: "See how and where your data is moving."
+    tooltip: "See how and where your data is moving.",
   },
   {
     key: "consent",
     label: "Consent Manager",
-    icon: User,
+    icon: UserCheck,
     path: "/dashboard/consent",
-    tooltip: "Easily control data sharing options."
+    tooltip: "Control data sharing options.",
   },
   {
     key: "risk",
-    label: "Risk Monitor",
-    icon: Activity,
+    label: "Real-Time Risk Monitor",
+    icon: Monitor,
     path: "/dashboard/risk",
-    tooltip: "Live alerts for risks and concerns."
+    tooltip: "Live alerts for risks and concerns.",
   },
   {
     key: "settings",
     label: "Settings",
     icon: Settings,
     path: "/dashboard/settings",
-    tooltip: "Profile and appearance settings."
+    tooltip: "Profile and appearance settings.",
   },
 ];
 
