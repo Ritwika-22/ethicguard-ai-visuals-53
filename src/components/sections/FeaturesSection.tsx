@@ -1,8 +1,8 @@
-
 import { useState } from 'react';
 import { Eye, Shield, UserCheck, Bell } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from '@/components/ui/button';
+import FeatureExampleDialog from "./FeatureExampleDialog";
 
 const features = [
   {
@@ -132,13 +132,14 @@ const FeaturesSection = () => {
                           </li>
                         ))}
                       </ul>
-                      <Button className="bg-ethic-navy hover:bg-ethic-navy/90 text-white">
-                        Learn More
-                      </Button>
+                      <FeatureExampleDialog featureId={feature.id}>
+                        <Button className="bg-ethic-navy hover:bg-ethic-navy/90 text-white">
+                          Learn More
+                        </Button>
+                      </FeatureExampleDialog>
                     </div>
                     <div className="bg-ethic-lightgray flex items-center justify-center p-8">
                       <div className="relative w-full h-64 bg-white rounded-xl shadow-md overflow-hidden border border-ethic-midgray">
-                        {/* Feature visualization or mockup */}
                         <div className="absolute inset-0 flex items-center justify-center">
                           <feature.icon size={64} className={feature.iconColor + " opacity-20"} />
                         </div>
@@ -154,10 +155,18 @@ const FeaturesSection = () => {
           </Tabs>
         </div>
 
-        {/* Mobile view */}
         <div className="grid grid-cols-1 md:hidden gap-6">
           {features.map(feature => (
-            <FeatureCard key={feature.id} feature={feature} />
+            <div key={feature.id}>
+              <FeatureCard feature={feature} />
+              <div className="flex justify-center mt-3">
+                <FeatureExampleDialog featureId={feature.id}>
+                  <Button className="bg-ethic-navy hover:bg-ethic-navy/90 text-white" size="sm">
+                    Learn More
+                  </Button>
+                </FeatureExampleDialog>
+              </div>
+            </div>
           ))}
         </div>
       </div>
