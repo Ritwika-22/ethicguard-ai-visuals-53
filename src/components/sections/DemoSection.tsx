@@ -340,19 +340,11 @@ const DemoSection = () => {
                 <DialogHeader>
                   <DialogTitle>EthicGuard AI Demo Video</DialogTitle>
                 </DialogHeader>
-                <div className="aspect-video rounded-md overflow-hidden">
-                  <iframe
-                    width="100%"
-                    height="100%"
-                    src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                    title="EthicGuard AI Demo"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+                <div className="aspect-video bg-ethic-navy rounded-md flex items-center justify-center">
+                  <Play className="text-white opacity-50" size={64} />
                 </div>
                 <div className="text-center text-sm text-gray-500 mt-2">
-                  This demo video shows exactly how EthicGuard works in practice.
+                  Full demo video coming soon.
                 </div>
               </DialogContent>
             </Dialog>
@@ -364,4 +356,3 @@ const DemoSection = () => {
 };
 
 export default DemoSection;
-
