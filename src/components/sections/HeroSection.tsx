@@ -17,10 +17,12 @@ const HeroSection = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 flex-wrap">
               <Button 
-                className="bg-ethic-navy hover:bg-ethic-navy/90 text-white px-8 py-6 text-lg"
-                onClick={() => document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth' })}
+                asChild
+                className="bg-ethic-green hover:bg-ethic-green/90 text-ethic-navy px-8 py-6 text-lg font-bold"
               >
-                Start Ethical Testing
+                <Link to="/workspace">
+                  Open Workspace
+                </Link>
               </Button>
               <Button 
                 variant="outline" 
@@ -28,14 +30,6 @@ const HeroSection = () => {
                 onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 How It Works <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-              <Button 
-                asChild
-                className="bg-ethic-green hover:bg-ethic-green/90 text-ethic-navy px-8 py-6 text-lg font-bold"
-              >
-                <Link to="/workspace">
-                  Open Workspace
-                </Link>
               </Button>
             </div>
           </div>
