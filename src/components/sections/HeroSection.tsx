@@ -1,6 +1,7 @@
 
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   return (
@@ -14,7 +15,7 @@ const HeroSection = () => {
             <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-xl">
               EthicGuard helps you deploy AI with confidence by testing for ethical issues, privacy concerns, and bias before your models go live.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 flex-wrap">
               <Button 
                 className="bg-ethic-navy hover:bg-ethic-navy/90 text-white px-8 py-6 text-lg"
                 onClick={() => document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth' })}
@@ -27,6 +28,14 @@ const HeroSection = () => {
                 onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 How It Works <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
+              <Button 
+                asChild
+                className="bg-ethic-green hover:bg-ethic-green/90 text-ethic-navy px-8 py-6 text-lg font-bold"
+              >
+                <Link to="/workspace">
+                  Open Workspace
+                </Link>
               </Button>
             </div>
           </div>
@@ -67,3 +76,4 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
+
