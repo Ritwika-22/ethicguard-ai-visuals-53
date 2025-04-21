@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
@@ -6,10 +5,10 @@ import HeroSection from '@/components/sections/HeroSection';
 import HowItWorksSection from '@/components/sections/HowItWorksSection';
 import FeaturesSection from '@/components/sections/FeaturesSection';
 import WorkflowDiagramSection from '@/components/sections/WorkflowDiagramSection';
-import DemoSection from '@/components/sections/DemoSection';
 import AudienceSection from '@/components/sections/AudienceSection';
 import ContactSection from '@/components/sections/ContactSection';
 import ConsentPopup from '@/components/ui/consent-popup';
+import { Link } from "react-router-dom";
 
 const Index = () => {
   const [showConsentPopup, setShowConsentPopup] = useState(false);
@@ -35,19 +34,25 @@ const Index = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      
       <main className="flex-grow">
         <HeroSection />
         <HowItWorksSection />
         <FeaturesSection />
         <WorkflowDiagramSection />
-        <DemoSection />
+        {/* Removed <DemoSection /> */}
         <AudienceSection />
         <ContactSection />
+        {/* Add a workspace CTA */}
+        <div className="flex justify-center my-8">
+          <Link
+            to="/workspace"
+            className="px-8 py-3 rounded-lg text-lg font-semibold bg-ethic-navy text-white shadow-lg hover:bg-ethic-navy/90 transition"
+          >
+            Open Workspace
+          </Link>
+        </div>
       </main>
-      
       <Footer />
-      
       <ConsentPopup open={showConsentPopup} onClose={handleConsentClose} />
     </div>
   );
