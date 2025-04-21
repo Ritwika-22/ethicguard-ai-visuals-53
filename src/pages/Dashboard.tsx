@@ -243,6 +243,15 @@ export default function Dashboard() {
           <span className="text-2xl md:text-3xl font-extrabold gradient-text tracking-tight select-none">
             EthicGuard AI
           </span>
+          <div className="ml-auto">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => navigate("/")}
+            >
+              Home
+            </Button>
+          </div>
         </header>
         {tabMap[tab]}
       </main>
