@@ -1,4 +1,3 @@
-
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import DashboardSidebar from "@/components/DashboardSidebar";
 import { Button } from "@/components/ui/button";
@@ -7,7 +6,6 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { Sun, Moon, Play } from "lucide-react";
 import { useState, useEffect } from "react";
 
-// Section wrapper for styling consistency.
 function SectionWrapper({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="flex flex-col gap-6 max-w-2xl w-full mx-auto p-6 px-4">
@@ -21,7 +19,6 @@ function SectionWrapper({ title, children }: { title: string; children: React.Re
   );
 }
 
-// Shadow Mode section (interactive: simulates running a test)
 function ShadowMode() {
   const [testing, setTesting] = useState(false);
   return (
@@ -50,7 +47,6 @@ function ShadowMode() {
   );
 }
 
-// Privacy Visualizer section (interactive: launches viewer sample)
 function PrivacyVisualizer() {
   const [showMap, setShowMap] = useState(false);
   return (
@@ -85,7 +81,6 @@ function PrivacyVisualizer() {
   );
 }
 
-// Consent Manager section (interactive: toggle consents)
 function ConsentManager() {
   const [consents, setConsents] = useState({
     analytics: false,
@@ -133,7 +128,6 @@ function ConsentManager() {
   );
 }
 
-// Real-Time Risk Monitor section (interactive: show alert)
 function RiskMonitor() {
   const [alerts, setAlerts] = useState([
     { id: 1, message: "Potential privacy risk in loan application", level: "high" },
@@ -174,7 +168,6 @@ function RiskMonitor() {
   );
 }
 
-// Settings section (interactive: toggle dark mode)
 function Settings() {
   const [darkMode, setDarkMode] = useState(true);
 
@@ -220,14 +213,12 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Extract current tab route (/dashboard/:tab)
   const tab = location.pathname.split("/")[2] || "shadow";
 
   useEffect(() => {
     document.documentElement.classList.add("dark");
   }, []);
 
-  // Redirect to default if no match
   if (!tabMap[tab]) {
     navigate(defaultTab, { replace: true });
     return null;
@@ -235,9 +226,7 @@ export default function Dashboard() {
 
   return (
     <div className="dark min-h-screen flex w-full bg-background flex-col md:flex-row">
-      {/* Sidebar */}
       <DashboardSidebar />
-      {/* Main content */}
       <main className="flex-1 flex flex-col items-center justify-start py-8 px-2 bg-background min-h-screen">
         <header className="w-full flex items-center px-2 py-3 mb-4 border-b border-muted bg-card/80 sticky top-0 z-40">
           <span className="text-2xl md:text-3xl font-extrabold gradient-text tracking-tight select-none">
@@ -253,7 +242,21 @@ export default function Dashboard() {
             </Button>
           </div>
         </header>
+
         {tabMap[tab]}
+
+        {tab === "settings" && (
+          <div className="mt-6 w-full max-w-2xl px-6">
+            <Button
+              variant="outline"
+              size="lg"
+              className="w-full"
+              onClick={() => navigate("/")}
+            >
+              ← Back to Home
+            </Button>
+          </div>
+        )}
       </main>
     </div>
   );
