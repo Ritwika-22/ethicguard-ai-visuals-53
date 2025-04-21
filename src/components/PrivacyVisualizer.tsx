@@ -135,7 +135,8 @@ const DESTINATIONS = [
 ];
 
 // Define possible flows between data and destinations
-const DATA_FLOWS = [
+// This is where we need to ensure the risk property is of type SharingRisk
+const DATA_FLOWS: FlowState[] = [
   { dataType: "name", destination: "server", risk: "safe", enabled: true },
   { dataType: "name", destination: "cloud", risk: "safe", enabled: true },
   { dataType: "name", destination: "third", risk: "risky", enabled: false },
