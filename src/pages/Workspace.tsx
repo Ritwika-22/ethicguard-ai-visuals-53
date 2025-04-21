@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import {
   Shield,
@@ -20,8 +19,8 @@ import { Slider } from "@/components/ui/slider";
 import { toast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 import ShadowModeTester from "@/components/ShadowModeTester";
+import PrivacyVisualizer from "@/components/PrivacyVisualizer";
 
-// Create a tab component for workspace
 const WorkspaceTab = ({ 
   active, 
   label, 
@@ -105,16 +104,7 @@ export default function Workspace() {
         {activeTab === "shadow" && <ShadowModeTester />}
         
         {activeTab === "privacy" && (
-          <div className="p-6">
-            <h2 className="text-2xl font-bold mb-4">Privacy Visualizer</h2>
-            <p className="text-shadow-secondary">
-              Visualize and explore how data moves through the AI system.
-            </p>
-            <div className="p-12 text-center text-shadow-secondary bg-shadow-card rounded-lg mt-8 border border-shadow-border">
-              <Eye className="w-12 h-12 mx-auto mb-4 text-ethic-accent opacity-50" />
-              <p>Privacy Visualizer functionality would be implemented here.</p>
-            </div>
-          </div>
+          <PrivacyVisualizer />
         )}
         
         {activeTab === "consent" && (
