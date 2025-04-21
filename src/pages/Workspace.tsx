@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import {
   Shield,
@@ -18,7 +19,7 @@ import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
 import { toast } from "@/hooks/use-toast"; // shadcn use-toast
 
-const menuItems = [
+const sections = [
   { key: "shadow", label: "Shadow Mode", icon: Shield },
   { key: "visualizer", label: "Privacy Visualizer", icon: Eye },
   { key: "consent", label: "Consent Manager", icon: UserCheck },
@@ -26,6 +27,7 @@ const menuItems = [
   { key: "settings", label: "Settings", icon: SettingsIcon },
 ];
 
+// Section Components (moved from previous flat structure)
 function ShadowModeSection() {
   const [testing, setTesting] = useState(false);
   const [log, setLog] = useState<string[]>([]);
@@ -372,13 +374,58 @@ function SettingsSection() {
 }
 
 export default function Workspace() {
+  const [activeSection, setActiveSection] = useState(sections[0].key);
+
+  function renderActiveSection() {
+    switch (activeSection) {
+      case "shadow":
+        return <ShadowModeSection />;
+      case "visualizer":
+        return <PrivacyVisualizerSection />;
+      case "consent":
+        return <ConsentManagerSection />;
+      case "risk":
+        return <RiskMonitorSection />;
+      case "settings":
+        return <SettingsSection />;
+      default:
+        return null;
+    }
+  }
+
   return (
-    <div className="flex w-full min-h-screen bg-background font-sans flex-col p-6 max-w-5xl mx-auto">
-      <ShadowModeSection />
-      <PrivacyVisualizerSection />
-      <ConsentManagerSection />
-      <RiskMonitorSection />
-      <SettingsSection />
+    <div className="flex w-full min-h-screen bg-background font-sans">
+      {/* Side panel */}
+      <aside className="min-w-[220px] max-w-xs bg-ethic-lightgray dark:bg-ethic-navy/80 py-8 px-2 flex flex-col gap-2 border-r border-ethic-midgray shadow-lg">
+        <div className="mb-5 px-4">
+          <span className="text-xl font-extrabold tracking-tight gradient-text select-none">
+            Dashboard
+          </span>
+        </div>
+        <nav className="flex flex-col gap-1">
+          {sections.map((section) => (
+            <Button
+              key={section.key}
+              variant={activeSection === section.key ? "secondary" : "ghost"}
+              className={`justify-start px-4 py-3 rounded-lg text-base font-medium flex items-center gap-3
+                ${activeSection === section.key
+                  ? "bg-ethic-accent/10 text-ethic-accent"
+                  : "text-ethic-navy dark:text-white hover:bg-ethic-accent/5"
+                }
+              `}
+              onClick={() => setActiveSection(section.key)}
+            >
+              <section.icon className="w-5 h-5" />
+              {section.label}
+            </Button>
+          ))}
+        </nav>
+      </aside>
+      {/* Content panel */}
+      <main className="flex-1 flex flex-col p-6 max-w-5xl mx-auto">
+        {renderActiveSection()}
+      </main>
     </div>
   );
 }
+
