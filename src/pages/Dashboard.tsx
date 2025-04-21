@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Sun, Moon } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import clsx from "clsx";
 
 function SectionWrapper({ title, children }: { title: string; children: React.ReactNode }) {
@@ -101,14 +101,20 @@ function RiskMonitor() {
 }
 
 function Settings() {
-  // Dummy dark mode toggle
-  const [darkMode, setDarkMode] = useState(() =>
-    document.documentElement.classList.contains("dark")
-  );
+  // Track dark mode state and ensure it reflects document state
+  const [darkMode, setDarkMode] = useState(true); // Default to true for dark mode
+  
+  // Apply dark mode on component mount
+  useEffect(() => {
+    document.documentElement.classList.add("dark");
+    setDarkMode(true);
+  }, []);
+  
   const toggleDark = () => {
-    document.documentElement.classList.toggle("dark");
-    setDarkMode(!darkMode);
+    const isDark = document.documentElement.classList.toggle("dark");
+    setDarkMode(isDark);
   };
+  
   return (
     <SectionWrapper title="Settings">
       <div className="space-y-4">
@@ -143,16 +149,19 @@ export default function Dashboard() {
 
   // Extract the current tab route (/dashboard/:tab)
   const tab = location.pathname.split("/")[2] || "shadow";
+  
+  // Apply dark mode on component mount
+  useEffect(() => {
+    document.documentElement.classList.add("dark");
+  }, []);
+  
   if (!tabMap[tab]) {
     navigate(defaultTab, { replace: true });
     return null;
   }
 
   return (
-    <div className={clsx(
-      "dark min-h-screen flex w-full bg-background",
-      "flex-col md:flex-row"
-    )}>
+    <div className="dark min-h-screen flex w-full bg-background flex-col md:flex-row">
       {/* Sidebar */}
       <DashboardSidebar />
       {/* Main content */}
