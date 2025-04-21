@@ -245,18 +245,17 @@ export default function Dashboard() {
 
         {tabMap[tab]}
 
-        {tab === "settings" && (
-          <div className="mt-6 w-full max-w-2xl px-6">
-            <Button
-              variant="outline"
-              size="lg"
-              className="w-full"
-              onClick={() => navigate("/")}
-            >
-              ← Back to Home
-            </Button>
-          </div>
-        )}
+        <div className="mt-10 w-full max-w-2xl px-6">
+          <Button
+            variant="outline"
+            size="lg"
+            className="w-full"
+            onClick={() => navigate("/")}
+            aria-label="Back to Home Page"
+          >
+            ← Back to Home
+          </Button>
+        </div>
       </main>
     </div>
   );
