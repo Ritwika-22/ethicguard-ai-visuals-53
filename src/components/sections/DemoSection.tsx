@@ -1,11 +1,10 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Eye, Shield, UserCheck, Bell, Play, AlertTriangle, CheckCircle } from 'lucide-react';
+import PrivacyVisualizer from "@/components/PrivacyVisualizer";
 
-// Consent management demo
 const ConsentDemo = () => {
   const [consentGiven, setConsentGiven] = useState({
     analytics: false,
@@ -112,7 +111,6 @@ const ConsentDemo = () => {
   );
 };
 
-// Shadow Mode demo
 const ShadowModeDemo = () => {
   const [activeItem, setActiveItem] = useState(0);
   
@@ -199,7 +197,6 @@ const ShadowModeDemo = () => {
   );
 };
 
-// Risk Alerts demo
 const RiskAlertsDemo = () => {
   const [alerts, setAlerts] = useState([
     {
@@ -284,7 +281,6 @@ const RiskAlertsDemo = () => {
   );
 };
 
-// Main Demo Section
 const DemoSection = () => {
   return (
     <section id="demo" className="py-16 md:py-24">
@@ -298,10 +294,14 @@ const DemoSection = () => {
 
         <div className="max-w-4xl mx-auto">
           <Tabs defaultValue="shadow-mode" className="w-full">
-            <TabsList className="grid grid-cols-3 mb-8">
+            <TabsList className="grid grid-cols-4 mb-8">
               <TabsTrigger value="shadow-mode">
                 <Eye className="mr-2" size={18} />
                 Shadow Mode
+              </TabsTrigger>
+              <TabsTrigger value="privacy-visualizer">
+                <Shield className="mr-2" size={18} />
+                Privacy Visualizer
               </TabsTrigger>
               <TabsTrigger value="consent-layer">
                 <UserCheck className="mr-2" size={18} />
@@ -316,11 +316,12 @@ const DemoSection = () => {
             <TabsContent value="shadow-mode" className="animate-fade-in">
               <ShadowModeDemo />
             </TabsContent>
-            
+            <TabsContent value="privacy-visualizer" className="animate-fade-in">
+              <PrivacyVisualizer />
+            </TabsContent>
             <TabsContent value="consent-layer" className="animate-fade-in">
               <ConsentDemo />
             </TabsContent>
-            
             <TabsContent value="risk-alerts" className="animate-fade-in">
               <RiskAlertsDemo />
             </TabsContent>
