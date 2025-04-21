@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import {
   User,
@@ -28,6 +29,7 @@ const DATA_TYPES = [
     label: "Name",
     icon: User,
     defaultSharing: "safe",
+    color: "bg-green-500",
     tooltip: "Used for personalization.",
     details: {
       usage: "Shown in your profile and communications.",
@@ -40,6 +42,7 @@ const DATA_TYPES = [
     label: "Email",
     icon: Mail,
     defaultSharing: "safe",
+    color: "bg-ethic-green",
     tooltip: "Email used for login only.",
     details: {
       usage: "Used to sign in and notifications.",
@@ -52,6 +55,7 @@ const DATA_TYPES = [
     label: "Location",
     icon: MapPin,
     defaultSharing: "risky",
+    color: "bg-red-500",
     tooltip: "Location shared with 3rd parties for ads.",
     details: {
       usage: "Personalized offers & ads.",
@@ -64,6 +68,7 @@ const DATA_TYPES = [
     label: "Device Info",
     icon: Smartphone,
     defaultSharing: "optional",
+    color: "bg-gray-400",
     tooltip: "Device type shared to help with support.",
     details: {
       usage: "Troubleshooting & improvements.",
@@ -76,6 +81,7 @@ const DATA_TYPES = [
     label: "Behavior/Usage",
     icon: Activity,
     defaultSharing: "optional",
+    color: "bg-gray-500",
     tooltip: "Used for UX research, with your permission.",
     details: {
       usage: "App improvement analytics.",
@@ -108,12 +114,20 @@ const FLOW_MAP = [
 // Helper: color for link by data type & state
 function getFlowStyle(dataLevel: SharingLevel, active: boolean) {
   if (!active) {
-    return "stroke-gray-400 stroke-dasharray-[4,4] opacity-60";
+    return "stroke-gray-300 opacity-30";
   }
   if (dataLevel === "safe") return "stroke-green-500";
   if (dataLevel === "risky") return "stroke-red-500";
   if (dataLevel === "optional") return "stroke-gray-400 stroke-dasharray-[4,4]";
   return "stroke-gray-300";
+}
+
+// Helper: chip color by type
+function getDataTypeChipClass(level: SharingLevel) {
+  if (level === "safe") return "bg-green-500 text-white";
+  if (level === "risky") return "bg-red-500 text-white";
+  if (level === "optional") return "bg-gray-400 text-white";
+  return "bg-gray-200";
 }
 
 // Helper: is risky flow active for alerts
@@ -146,6 +160,9 @@ export default function PrivacyVisualizer() {
   const handleSelect = (id: string) => {
     setSelectedId(prev => (prev === id ? null : id));
   };
+
+  // Positioning for flow labels beside lines
+  const yOffsets = [-50, -20, 0, 20, 50];
 
   return (
     <div className="flex flex-col md:flex-row gap-2 w-full min-h-[640px] pt-4 bg-shadow-background animate-fade-in">
@@ -227,10 +244,9 @@ export default function PrivacyVisualizer() {
             {/* Draw data flows for each data type */}
             {/* User → App/Server & Server → Third based on data type state */}
             {DATA_TYPES.map((dt, idx) => {
-              // for stacking, assign vertical offset per type
-              const yOffsets = [-50, -20, 0, 20, 50];
-              const level = dataState[dt.id].level; // safe/risky/optional
+              const level = dataState[dt.id].level;
               const active = dataState[dt.id].sharing;
+              const faded = !active;
               // User to App/Server
               return (
                 <g key={dt.id}>
@@ -250,29 +266,38 @@ export default function PrivacyVisualizer() {
                     y2={130 + yOffsets[idx]}
                     className={`transition-all stroke-2 ${getFlowStyle(level, active && level!=="safe")}`}
                   />
-                  {/* Clickable toggles at start */}
-                  <circle
-                    cx={50+28}
-                    cy={130 + yOffsets[idx]}
-                    r="12"
-                    className={`fill-white stroke ${active ? "stroke-ethic-accent" : "stroke-gray-400"} cursor-pointer`}
-                    onClick={() => handleToggle(dt.id)}
-                  />
-                  {active
-                    ? <ToggleRight
-                        x={50+22-13}
-                        y={130 + yOffsets[idx] -13}
-                        size={18}
-                        className="text-ethic-accent cursor-pointer"
-                        onClick={() => handleToggle(dt.id)}
-                      />
-                    : <ToggleLeft
-                        x={50+22-13}
-                        y={130 + yOffsets[idx] -13}
-                        size={18}
-                        className="text-gray-400 cursor-pointer"
-                        onClick={() => handleToggle(dt.id)}
-                      />}
+                  {/* Label chip on flow: toggleable */}
+                  <foreignObject
+                    x={105}
+                    y={90 + yOffsets[idx]}
+                    width="90"
+                    height="32"
+                    style={{ overflow: "visible", pointerEvents: "none" }}
+                  >
+                    <div
+                      style={{
+                        pointerEvents: "auto",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 4,
+                        opacity: faded ? 0.38 : 1,
+                        filter: faded ? "grayscale(0.6)" : undefined,
+                        cursor: "pointer"
+                      }}
+                      className={`transition-all rounded-full px-2 py-0.5 text-xs font-semibold shadow ${getDataTypeChipClass(level)}`}
+                      onClick={() => handleToggle(dt.id)}
+                      tabIndex={0}
+                      title={dt.label}
+                    >
+                      <span className="whitespace-nowrap">{dt.label}</span>
+                      {active ? (
+                        <ToggleRight size={15} className="ml-1" />
+                      ) : (
+                        <ToggleLeft size={15} className="ml-1" />
+                      )}
+                    </div>
+                  </foreignObject>
+                  {/* Clickable toggles at start (hidden visually, accessible by chip now) */}
                   {/* Endpoint: dots/hover for more info */}
                   <circle
                     cx={270-34}
@@ -381,10 +406,11 @@ export default function PrivacyVisualizer() {
         <div className="mt-4 text-sm text-shadow-secondary">
           <Info size={16} className="inline mr-1" />
           <span>
-            Hover icons for info. Toggle switches or circles to turn sharing off/on. Click dots or data types for details.
+            Hover icons for info. Toggle chips or switches to turn sharing off/on. Click dots or data types for details.
           </span>
         </div>
       </div>
     </div>
   );
 }
+
