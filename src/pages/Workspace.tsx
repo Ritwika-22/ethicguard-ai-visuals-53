@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import {
   Shield,
@@ -19,6 +20,7 @@ import ShadowModeTester from "@/components/ShadowModeTester";
 import PrivacyVisualizer from "@/components/PrivacyVisualizer";
 import ConsentManager from "@/components/ConsentManager";
 import RiskMonitorPanel from "@/components/RiskMonitorPanel";
+import SettingsPanel from "@/components/SettingsPanel";
 
 const WorkspaceTab = ({
   active,
@@ -111,18 +113,7 @@ export default function Workspace() {
 
         {activeTab === "risk" && <RiskMonitorPanel />}
 
-        {activeTab === "settings" && (
-          <div>
-            <h2 className="text-2xl font-bold mb-4 text-foreground">Settings</h2>
-            <p className="text-muted-foreground">
-              Configure your workspace preferences and account settings.
-            </p>
-            <div className="p-12 text-center text-muted-foreground bg-card rounded-lg border border-border mt-8">
-              <SettingsIcon className="w-12 h-12 mx-auto mb-4 text-accent opacity-50" />
-              <p>Settings functionality would be implemented here.</p>
-            </div>
-          </div>
-        )}
+        {activeTab === "settings" && <SettingsPanel />}
       </div>
     </div>
   );
