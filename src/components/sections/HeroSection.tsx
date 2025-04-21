@@ -19,7 +19,7 @@ const HeroSection = () => {
                 className="bg-ethic-navy hover:bg-ethic-navy/90 text-white px-8 py-6 text-lg"
                 onClick={() => document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                Try Demo
+                Start Ethical Testing
               </Button>
               <Button 
                 variant="outline" 
