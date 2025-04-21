@@ -4,7 +4,7 @@ import {
   User,
   Mail,
   MapPin,
-  DeviceMobile,
+  Smartphone,
   Activity,
   ArrowRight,
   Info,
@@ -63,7 +63,7 @@ const DATA_TYPES = [
   {
     id: "device",
     label: "Device Info",
-    icon: DeviceMobile,
+    icon: Smartphone,
     defaultSharing: "optional",
     tooltip: "Device type shared to help with support.",
     details: {
