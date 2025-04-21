@@ -2,6 +2,7 @@
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 
 // Helper for the "Before" gradient inline
 const GradientBefore = () => (
@@ -14,6 +15,23 @@ const GradientBefore = () => (
 );
 
 const HeroSection = () => {
+  // Animated example score logic
+  const [score, setScore] = useState<number>(() => {
+    // Start at random lower value for animation effect
+    return Math.floor(Math.random() * (85 - 67) + 67);
+  });
+
+  useEffect(() => {
+    if (score >= 98) return;
+    const interval = setInterval(() => {
+      setScore(prev => {
+        if (prev < 98) return prev + 1 + Math.floor(Math.random() * 2); // jump sometimes
+        return 98;
+      });
+    }, 35); // fast animation
+    return () => clearInterval(interval);
+  }, [score]);
+
   return (
     <div className="bg-[#f9fbfc] min-h-[630px] flex items-center justify-center pt-12 pb-12 px-4 md:px-0">
       <div className="container mx-auto flex flex-col md:flex-row items-center max-w-7xl">
@@ -75,8 +93,8 @@ const HeroSection = () => {
                 <span className="font-semibold text-base">
                   AI Model Ethics Score
                 </span>
-                <span className="bg-ethic-green text-ethic-navy font-bold text-md px-3 py-1 rounded-lg animate-pulse">
-                  98/100
+                <span className="bg-ethic-green text-ethic-navy font-bold text-md px-3 py-1 rounded-lg animate-pulse transition-all duration-300">
+                  {score}/100
                 </span>
               </div>
             </div>
@@ -88,4 +106,3 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
-
