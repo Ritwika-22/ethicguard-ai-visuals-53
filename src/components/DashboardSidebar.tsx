@@ -17,6 +17,7 @@ import {
   UserCheck,
   Monitor,
   Settings,
+  AlertTriangle,
 } from "lucide-react";
 
 // Sidebar items, now matching your desired icons and labels.
@@ -48,6 +49,13 @@ const sidebarItems = [
     icon: Monitor,
     path: "/dashboard/risk",
     tooltip: "Live alerts for risks and concerns.",
+  },
+  {
+    key: "risk-analysis",
+    label: "Risk Analysis",
+    icon: AlertTriangle,
+    path: "/risk-analysis",
+    tooltip: "Comprehensive risk analysis dashboard.",
   },
   {
     key: "settings",
