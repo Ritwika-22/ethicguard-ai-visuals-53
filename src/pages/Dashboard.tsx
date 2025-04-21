@@ -1,10 +1,15 @@
+
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import DashboardSidebar from "@/components/DashboardSidebar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { Sun, Moon, Play } from "lucide-react";
+import { Sun, Moon, Play, Settings as SettingsIcon, Bell, Globe, Lock, User } from "lucide-react";
 import { useState, useEffect } from "react";
+import { Switch } from "@/components/ui/switch";
+import { useToast } from "@/hooks/use-toast";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 
 function SectionWrapper({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -169,7 +174,12 @@ function RiskMonitor() {
 }
 
 function Settings() {
+  const { toast } = useToast();
   const [darkMode, setDarkMode] = useState(true);
+  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const [autoSaveEnabled, setAutoSaveEnabled] = useState(true);
+  const [dataCollectionEnabled, setDataCollectionEnabled] = useState(false);
+  const [language, setLanguage] = useState("english");
 
   useEffect(() => {
     document.documentElement.classList.add("dark");
@@ -179,20 +189,205 @@ function Settings() {
   const toggleDark = () => {
     const isDark = document.documentElement.classList.toggle("dark");
     setDarkMode(isDark);
+    toast({
+      title: isDark ? "Dark mode enabled" : "Light mode enabled",
+      description: `You've switched to ${isDark ? "dark" : "light"} mode.`
+    });
+  };
+
+  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setLanguage(e.target.value);
+    toast({
+      title: "Language updated",
+      description: `Language preference saved to ${e.target.value}.`
+    });
+  };
+
+  const handleSettingToggle = (setting: string, value: boolean) => {
+    toast({
+      title: `${setting} ${value ? "enabled" : "disabled"}`,
+      description: `You've ${value ? "enabled" : "disabled"} ${setting.toLowerCase()}.`
+    });
   };
 
   return (
     <SectionWrapper title="Settings">
-      <div className="space-y-4">
-        <div className="flex items-center gap-3">
-          <span className="text-muted-foreground mr-2">Theme:</span>
-          <Button onClick={toggleDark} className="flex items-center gap-2 px-4">
-            {darkMode ? <Sun /> : <Moon />}
-            {darkMode ? "Light Mode" : "Dark Mode"}
-          </Button>
-        </div>
+      <div className="space-y-6">
+        {/* Appearance Settings */}
         <div>
-          <p className="text-muted-foreground">Profile and account settings will go here.</p>
+          <h3 className="text-lg font-semibold mb-4 text-foreground flex items-center gap-2">
+            <SettingsIcon className="w-5 h-5 text-ethic-green" />
+            Appearance
+          </h3>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <Label htmlFor="theme-toggle">Theme</Label>
+                <p className="text-sm text-muted-foreground">
+                  Switch between dark and light mode
+                </p>
+              </div>
+              <Button onClick={toggleDark} className="flex items-center gap-2">
+                {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+                {darkMode ? "Light Mode" : "Dark Mode"}
+              </Button>
+            </div>
+            
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <Label htmlFor="language-select">Language</Label>
+                <p className="text-sm text-muted-foreground">
+                  Choose your preferred language
+                </p>
+              </div>
+              <select
+                id="language-select"
+                value={language}
+                onChange={handleLanguageChange}
+                className="bg-background border border-input rounded-md py-2 px-3"
+              >
+                <option value="english">English</option>
+                <option value="spanish">Spanish</option>
+                <option value="french">French</option>
+                <option value="german">German</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <Separator />
+
+        {/* Notification Settings */}
+        <div>
+          <h3 className="text-lg font-semibold mb-4 text-foreground flex items-center gap-2">
+            <Bell className="w-5 h-5 text-ethic-green" />
+            Notifications
+          </h3>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <Label htmlFor="notifications-toggle">Enable Notifications</Label>
+                <p className="text-sm text-muted-foreground">
+                  Receive alerts about system events
+                </p>
+              </div>
+              <Switch
+                id="notifications-toggle"
+                checked={notificationsEnabled}
+                onCheckedChange={(checked) => {
+                  setNotificationsEnabled(checked);
+                  handleSettingToggle("Notifications", checked);
+                }}
+              />
+            </div>
+            
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <Label htmlFor="autosave-toggle">Auto-save</Label>
+                <p className="text-sm text-muted-foreground">
+                  Automatically save your work
+                </p>
+              </div>
+              <Switch
+                id="autosave-toggle"
+                checked={autoSaveEnabled}
+                onCheckedChange={(checked) => {
+                  setAutoSaveEnabled(checked);
+                  handleSettingToggle("Auto-save", checked);
+                }}
+              />
+            </div>
+          </div>
+        </div>
+        
+        <Separator />
+
+        {/* Privacy Settings */}
+        <div>
+          <h3 className="text-lg font-semibold mb-4 text-foreground flex items-center gap-2">
+            <Lock className="w-5 h-5 text-ethic-green" />
+            Privacy
+          </h3>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <Label htmlFor="data-collection-toggle">Data Collection</Label>
+                <p className="text-sm text-muted-foreground">
+                  Allow anonymous usage data collection
+                </p>
+              </div>
+              <Switch
+                id="data-collection-toggle"
+                checked={dataCollectionEnabled}
+                onCheckedChange={(checked) => {
+                  setDataCollectionEnabled(checked);
+                  handleSettingToggle("Data collection", checked);
+                }}
+              />
+            </div>
+            
+            <div className="mt-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  toast({
+                    title: "Privacy policy",
+                    description: "Privacy policy would open in a new tab."
+                  });
+                }}
+              >
+                Privacy Policy
+              </Button>
+            </div>
+          </div>
+        </div>
+        
+        <Separator />
+        
+        {/* Account Settings */}
+        <div>
+          <h3 className="text-lg font-semibold mb-4 text-foreground flex items-center gap-2">
+            <User className="w-5 h-5 text-ethic-green" />
+            Account
+          </h3>
+          <div className="flex flex-col gap-3">
+            <Button 
+              variant="outline" 
+              onClick={() => {
+                toast({
+                  title: "Profile settings",
+                  description: "Profile settings would open here."
+                });
+              }}
+            >
+              Edit Profile
+            </Button>
+            <Button 
+              variant="outline"
+              onClick={() => {
+                toast({
+                  title: "Account password",
+                  description: "Password change dialog would open here."
+                });
+              }}
+            >
+              Change Password
+            </Button>
+            <Button
+              variant="destructive"
+              className="mt-2"
+              onClick={() => {
+                toast({
+                  title: "Action required",
+                  description: "Account deletion requires confirmation.",
+                  variant: "destructive"
+                });
+              }}
+            >
+              Delete Account
+            </Button>
+          </div>
         </div>
       </div>
     </SectionWrapper>
