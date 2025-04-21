@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import {
   User,
@@ -148,7 +147,6 @@ export default function PrivacyVisualizer() {
     setSelectedId(prev => (prev === id ? null : id));
   };
 
-  // UI starts here
   return (
     <div className="flex flex-col md:flex-row gap-2 w-full min-h-[640px] pt-4 bg-shadow-background animate-fade-in">
       {/* Left: Data Types */}
@@ -183,7 +181,16 @@ export default function PrivacyVisualizer() {
       </div>
       {/* Center: Flow Map */}
       <div className="flex-1 flex flex-col items-center justify-center min-w-[340px] py-4">
-        <div className="mb-2 text-lg font-semibold">Data Flow Map</div>
+        {/* Intro Section */}
+        <div className="mb-4 w-full max-w-md text-center bg-white/60 rounded-xl shadow px-4 py-3 border border-shadow-border">
+          <div className="text-lg font-semibold text-ethic-accent mb-1">
+            Privacy Visualizer
+          </div>
+          <div className="text-sm text-shadow-secondary">
+            Identify data flow vulnerabilities and potential privacy leaks before they become problems with our visual analysis tools.
+          </div>
+        </div>
+        {/* Data Flow Diagram */}
         <div className="relative bg-shadow-card border border-shadow-border rounded-2xl p-2 sm:p-7 w-[340px] h-[340px] shadow flex items-center justify-center mx-auto">
           {/* SVG Flow Diagram */}
           <svg
@@ -356,6 +363,20 @@ export default function PrivacyVisualizer() {
               </div>
             </div>
           )}
+        </div>
+        {/* Features/Capabilities Section */}
+        <div className="mt-6 w-full max-w-md">
+          <div className="bg-white/70 border border-muted rounded-xl p-4 shadow">
+            <div className="font-semibold text-ethic-accent mb-2 text-center text-base">
+              Capabilities
+            </div>
+            <ul className="list-disc ml-5 space-y-1 text-sm text-shadow-secondary">
+              <li>Interactive data flow diagrams</li>
+              <li>PII detection and handling visualization</li>
+              <li>Regulatory compliance checking (GDPR, CCPA, etc.)</li>
+              <li>Data minimization recommendations</li>
+            </ul>
+          </div>
         </div>
         <div className="mt-4 text-sm text-shadow-secondary">
           <Info size={16} className="inline mr-1" />
