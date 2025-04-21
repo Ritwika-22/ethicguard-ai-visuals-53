@@ -75,7 +75,7 @@ const HeroSection = () => {
                 <span className="font-semibold text-base">
                   AI Model Ethics Score
                 </span>
-                <span className="bg-ethic-green text-ethic-navy font-bold text-md px-3 py-1 rounded-lg">
+                <span className="bg-ethic-green text-ethic-navy font-bold text-md px-3 py-1 rounded-lg animate-pulse">
                   98/100
                 </span>
               </div>
@@ -88,3 +88,4 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
+
