@@ -1,11 +1,16 @@
 
-import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
-import { UserCheck, Shield, Info, X } from 'lucide-react';
+import { useState } from 'react';
+import { X, Shield, Info } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 
 interface ConsentPopupProps {
   open: boolean;
@@ -14,187 +19,134 @@ interface ConsentPopupProps {
 
 const ConsentPopup = ({ open, onClose }: ConsentPopupProps) => {
   const [consents, setConsents] = useState({
-    necessary: true,
+    necessary: true, // Always required
     analytics: false,
-    marketing: false
+    marketing: false,
+    preferences: false,
   });
 
-  const [tab, setTab] = useState('simple');
-  
-  // Can't disable necessary cookies
   const handleConsentChange = (type: keyof typeof consents) => {
-    if (type === 'necessary') return;
-    
+    if (type === 'necessary') return; // Can't change necessary consents
     setConsents(prev => ({
       ...prev,
       [type]: !prev[type]
     }));
   };
-  
+
   const handleAcceptAll = () => {
     setConsents({
       necessary: true,
       analytics: true,
-      marketing: true
+      marketing: true,
+      preferences: true,
     });
     onClose();
   };
-  
+
   const handleSavePreferences = () => {
-    // Save the current consent preferences
     onClose();
   };
-  
+
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle className="flex items-center text-ethic-navy">
-            <UserCheck className="mr-2 text-ethic-green" size={20} />
-            Privacy &amp; Consent Preferences
+          <DialogTitle className="flex items-center text-xl">
+            <Shield className="mr-2 h-5 w-5 text-ethic-green" />
+            Privacy & Cookie Preferences
           </DialogTitle>
           <DialogDescription>
-            Control how EthicGuard uses your data. You can customize your preferences at any time.
+            Control how your data is collected and used on our site.
           </DialogDescription>
         </DialogHeader>
-        
-        <Tabs defaultValue="simple" className="w-full" onValueChange={setTab}>
-          <TabsList className="grid grid-cols-2 mb-4">
-            <TabsTrigger value="simple">Simple View</TabsTrigger>
-            <TabsTrigger value="detailed">Detailed View</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="simple" className="animate-fade-in">
-            <div className="space-y-4">
-              <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h4 className="font-medium text-ethic-navy">Necessary Cookies</h4>
-                    <p className="text-sm text-gray-500">Required for the website to function properly</p>
-                  </div>
-                  <Switch checked={consents.necessary} disabled />
+
+        <div className="space-y-4 my-2">
+          <div className="bg-gray-50 p-3 rounded-md border">
+            <div className="flex items-center justify-between">
+              <div className="flex items-start">
+                <div className="mr-2 mt-0.5">
+                  <Switch id="necessary" checked={consents.necessary} disabled />
+                </div>
+                <div>
+                  <label htmlFor="necessary" className="font-medium block">Necessary</label>
+                  <p className="text-sm text-gray-600">Required for the site to function properly.</p>
                 </div>
               </div>
-              
-              <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h4 className="font-medium text-ethic-navy">Analytics Cookies</h4>
-                    <p className="text-sm text-gray-500">Help us improve by tracking how you use the site</p>
-                  </div>
-                  <Switch 
-                    checked={consents.analytics} 
-                    onCheckedChange={() => handleConsentChange('analytics')} 
-                  />
-                </div>
-              </div>
-              
-              <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h4 className="font-medium text-ethic-navy">Marketing Cookies</h4>
-                    <p className="text-sm text-gray-500">Allow us to provide personalized marketing</p>
-                  </div>
-                  <Switch 
-                    checked={consents.marketing} 
-                    onCheckedChange={() => handleConsentChange('marketing')} 
-                  />
-                </div>
-              </div>
+              <Info className="h-4 w-4 text-gray-400" />
             </div>
-          </TabsContent>
-          
-          <TabsContent value="detailed" className="animate-fade-in">
-            <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2">
-              <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-                <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <h4 className="font-medium text-ethic-navy">Necessary Cookies</h4>
-                    <p className="text-sm text-gray-500">Required for the website to function properly</p>
-                  </div>
-                  <Switch checked={consents.necessary} disabled />
-                </div>
-                <div className="text-xs text-gray-500 p-3 bg-white rounded border border-gray-100">
-                  <p className="mb-2">
-                    <strong>Purpose:</strong> These cookies are essential for the website to function properly and cannot be disabled.
-                  </p>
-                  <p className="mb-2">
-                    <strong>Data Collected:</strong> Session information, login status, form submissions.
-                  </p>
-                  <p>
-                    <strong>Storage Period:</strong> Session only
-                  </p>
-                </div>
-              </div>
-              
-              <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-                <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <h4 className="font-medium text-ethic-navy">Analytics Cookies</h4>
-                    <p className="text-sm text-gray-500">Help us improve by tracking how you use the site</p>
-                  </div>
+          </div>
+
+          <div className="bg-gray-50 p-3 rounded-md border">
+            <div className="flex items-center justify-between">
+              <div className="flex items-start">
+                <div className="mr-2 mt-0.5">
                   <Switch 
+                    id="analytics" 
                     checked={consents.analytics} 
-                    onCheckedChange={() => handleConsentChange('analytics')} 
+                    onCheckedChange={() => handleConsentChange('analytics')}
                   />
                 </div>
-                <div className="text-xs text-gray-500 p-3 bg-white rounded border border-gray-100">
-                  <p className="mb-2">
-                    <strong>Purpose:</strong> These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site.
-                  </p>
-                  <p className="mb-2">
-                    <strong>Data Collected:</strong> Pages visited, time spent, navigation paths, anonymized device info.
-                  </p>
-                  <p>
-                    <strong>Storage Period:</strong> 1 year
-                  </p>
+                <div>
+                  <label htmlFor="analytics" className="font-medium block">Analytics</label>
+                  <p className="text-sm text-gray-600">Help us improve by allowing anonymous usage data.</p>
                 </div>
               </div>
-              
-              <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-                <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <h4 className="font-medium text-ethic-navy">Marketing Cookies</h4>
-                    <p className="text-sm text-gray-500">Allow us to provide personalized marketing</p>
-                  </div>
-                  <Switch 
-                    checked={consents.marketing} 
-                    onCheckedChange={() => handleConsentChange('marketing')} 
-                  />
-                </div>
-                <div className="text-xs text-gray-500 p-3 bg-white rounded border border-gray-100">
-                  <p className="mb-2">
-                    <strong>Purpose:</strong> These cookies allow us to personalize marketing content to match your interests.
-                  </p>
-                  <p className="mb-2">
-                    <strong>Data Collected:</strong> Browsing preferences, content interests, referring websites.
-                  </p>
-                  <p>
-                    <strong>Storage Period:</strong> 6 months
-                  </p>
-                </div>
-              </div>
-              
-              <div className="flex items-center p-3 bg-blue-50 rounded text-sm text-blue-700 border border-blue-100">
-                <Info size={16} className="mr-2 flex-shrink-0" />
-                <p>
-                  You can change your preferences at any time by clicking the "Privacy Preferences" link in the footer.
-                </p>
-              </div>
+              <Info className="h-4 w-4 text-gray-400" />
             </div>
-          </TabsContent>
-        </Tabs>
-        
-        <DialogFooter className="flex-col sm:flex-row gap-2">
-          <Button variant="outline" onClick={onClose} className="sm:order-first">
-            <X size={16} className="mr-2" />
-            Decline All
-          </Button>
-          <Button onClick={handleSavePreferences} variant="outline" className="border-ethic-navy text-ethic-navy">
+          </div>
+
+          <div className="bg-gray-50 p-3 rounded-md border">
+            <div className="flex items-center justify-between">
+              <div className="flex items-start">
+                <div className="mr-2 mt-0.5">
+                  <Switch 
+                    id="preferences" 
+                    checked={consents.preferences} 
+                    onCheckedChange={() => handleConsentChange('preferences')}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="preferences" className="font-medium block">Preferences</label>
+                  <p className="text-sm text-gray-600">Remember settings and customize your experience.</p>
+                </div>
+              </div>
+              <Info className="h-4 w-4 text-gray-400" />
+            </div>
+          </div>
+
+          <div className="bg-gray-50 p-3 rounded-md border">
+            <div className="flex items-center justify-between">
+              <div className="flex items-start">
+                <div className="mr-2 mt-0.5">
+                  <Switch 
+                    id="marketing" 
+                    checked={consents.marketing} 
+                    onCheckedChange={() => handleConsentChange('marketing')}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="marketing" className="font-medium block">Marketing</label>
+                  <p className="text-sm text-gray-600">Allow us to personalize ads and content for you.</p>
+                </div>
+              </div>
+              <Info className="h-4 w-4 text-gray-400" />
+            </div>
+          </div>
+        </div>
+
+        <DialogFooter className="flex-col gap-2 sm:flex-row sm:justify-between sm:gap-0">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleSavePreferences}
+          >
             Save Preferences
           </Button>
-          <Button onClick={handleAcceptAll} className="bg-ethic-green hover:bg-ethic-green/90 text-white">
-            <Shield size={16} className="mr-2" />
+          <Button
+            type="button"
+            onClick={handleAcceptAll}
+            className="bg-ethic-green hover:bg-ethic-green/90 text-white"
+          >
             Accept All
           </Button>
         </DialogFooter>
