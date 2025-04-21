@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import {
   Shield,
@@ -19,7 +18,6 @@ import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
 import { toast } from "@/hooks/use-toast"; // shadcn use-toast
 
-// Sidebar menu data
 const menuItems = [
   { key: "shadow", label: "Shadow Mode", icon: Shield },
   { key: "visualizer", label: "Privacy Visualizer", icon: Eye },
@@ -28,7 +26,6 @@ const menuItems = [
   { key: "settings", label: "Settings", icon: SettingsIcon },
 ];
 
-// Shadow Mode: Now with real test state and mock log feedback
 function ShadowModeSection() {
   const [testing, setTesting] = useState(false);
   const [log, setLog] = useState<string[]>([]);
@@ -40,7 +37,6 @@ function ShadowModeSection() {
       title: "Shadow Mode activated",
       description: "AI decisions are now running in test mode."
     });
-    // Simulate AI test log output
     setTimeout(() => setLog((l) => [...l, "AI simulated decision: Approve ✓"]), 1400);
     setTimeout(() => setLog((l) => [...l, "AI simulated decision: Flag for review"]), 2500);
     setTimeout(() => setLog((l) => [...l, "AI simulated decision: Reject ✗"]), 3900);
@@ -48,7 +44,7 @@ function ShadowModeSection() {
   };
 
   return (
-    <div>
+    <section className="mb-10">
       <h2 className="text-2xl font-bold mb-3 text-ethic-green flex items-center gap-2">
         <Shield className="w-6 h-6" /> Shadow Mode
       </h2>
@@ -89,17 +85,16 @@ function ShadowModeSection() {
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 }
 
-// Privacy Visualizer: Now interactive with a switch and mock slider for data access level
 function PrivacyVisualizerSection() {
   const [showMap, setShowMap] = useState(false);
-  const [dataLevel, setDataLevel] = useState([30]); // slider range: [0,100]
+  const [dataLevel, setDataLevel] = useState([30]);
 
   return (
-    <div>
+    <section className="mb-10">
       <h2 className="text-2xl font-bold mb-3 text-ethic-accent flex items-center gap-2">
         <Eye className="w-6 h-6" /> Privacy Visualizer
       </h2>
@@ -122,7 +117,7 @@ function PrivacyVisualizerSection() {
           {showMap ? "Hide" : "View"}
         </Button>
       </div>
-      <div className="mt-6">
+      <div className="mt-6 max-w-md">
         <label className="block font-semibold mb-2 text-sm">
           Data Detail Level
         </label>
@@ -132,7 +127,7 @@ function PrivacyVisualizerSection() {
           step={10}
           value={dataLevel}
           onValueChange={setDataLevel}
-          className="max-w-md"
+          className=""
         />
         <div className="text-xs mt-1 text-muted-foreground">
           Visualization granularity: <span className="font-bold">{dataLevel[0]}</span>%
@@ -150,11 +145,10 @@ function PrivacyVisualizerSection() {
           </div>
         </div>
       )}
-    </div>
+    </section>
   );
 }
 
-// Consent Manager: Real toggles with a submission button, instant toast feedback
 function ConsentManagerSection() {
   const [consents, setConsents] = useState({
     analytics: false,
@@ -176,7 +170,7 @@ function ConsentManagerSection() {
   };
 
   return (
-    <div>
+    <section className="mb-10">
       <h2 className="text-2xl font-bold mb-3 text-ethic-navy flex items-center gap-2">
         <UserCheck className="w-6 h-6" /> Consent Manager
       </h2>
@@ -218,11 +212,10 @@ function ConsentManagerSection() {
           {saving ? "Saving..." : "Save Preferences"}
         </Button>
       </div>
-    </div>
+    </section>
   );
 }
 
-// Real-Time Risk Monitor: Now interactive, with ability to silence alerts and mark as resolved
 function RiskMonitorSection() {
   const [alerts, setAlerts] = useState([
     { id: 1, message: "Potential privacy risk in loan application", level: "high", active: true },
@@ -246,7 +239,7 @@ function RiskMonitorSection() {
   };
 
   return (
-    <div>
+    <section className="mb-10">
       <h2 className="text-2xl font-bold mb-3 text-red-700 flex items-center gap-2">
         <Monitor className="w-6 h-6" /> Real-Time Risk Monitor
       </h2>
@@ -311,11 +304,10 @@ function RiskMonitorSection() {
       >
         {showInactive ? "Hide Resolved Alerts" : "Show All Alerts"}
       </Button>
-    </div>
+    </section>
   );
 }
 
-// Settings: Theme toggle and profile (toggle actually updates theme)
 function SettingsSection() {
   const [darkMode, setDarkMode] = useState(
     typeof window !== "undefined" && document.documentElement.classList.contains("dark")
@@ -345,7 +337,7 @@ function SettingsSection() {
   };
 
   return (
-    <div>
+    <section className="mb-10">
       <h2 className="text-2xl font-bold mb-3 text-ethic-navy flex items-center gap-2">
         <SettingsIcon className="w-6 h-6" /> Settings
       </h2>
@@ -375,47 +367,18 @@ function SettingsSection() {
           </Button>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
-const sectionMap: Record<string, React.ReactNode> = {
-  shadow: <ShadowModeSection />,
-  visualizer: <PrivacyVisualizerSection />,
-  consent: <ConsentManagerSection />,
-  risk: <RiskMonitorSection />,
-  settings: <SettingsSection />,
-};
-
 export default function Workspace() {
-  const [current, setCurrent] = useState("shadow");
-
   return (
-    <div className="flex w-full min-h-screen bg-background font-sans">
-      {/* Sidebar */}
-      <aside className="bg-sidebar dark:bg-ethic-navy text-sidebar-foreground w-64 min-h-screen shadow-lg p-4 flex flex-col items-start gap-1">
-        <div className="text-lg font-bold mb-6 text-ethic-green pl-2">Workspace</div>
-        <nav className="flex flex-col w-full gap-2">
-          {menuItems.map((item) => (
-            <button
-              key={item.key}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all text-base font-medium
-                ${current === item.key
-                  ? "bg-ethic-green/90 text-white shadow"
-                  : "hover:bg-ethic-green/20 text-ethic-midgray"
-                }`}
-              onClick={() => setCurrent(item.key)}
-            >
-              <item.icon className="w-5 h-5" />
-              <span>{item.label}</span>
-            </button>
-          ))}
-        </nav>
-      </aside>
-      {/* Section content */}
-      <main className="flex-1 flex flex-col items-center justify-start py-12 px-6 bg-background min-h-screen">
-        <div className="w-full max-w-3xl">{sectionMap[current]}</div>
-      </main>
+    <div className="flex w-full min-h-screen bg-background font-sans flex-col p-6 max-w-5xl mx-auto">
+      <ShadowModeSection />
+      <PrivacyVisualizerSection />
+      <ConsentManagerSection />
+      <RiskMonitorSection />
+      <SettingsSection />
     </div>
   );
 }
