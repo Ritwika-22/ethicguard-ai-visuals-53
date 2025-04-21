@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import {
   Shield,
@@ -17,7 +16,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
-import { toast } from "@/hooks/use-toast"; // shadcn use-toast
+import { toast } from "@/hooks/use-toast";
+import { Link } from "react-router-dom";
 
 const sections = [
   { key: "shadow", label: "Shadow Mode", icon: Shield },
@@ -27,7 +27,6 @@ const sections = [
   { key: "settings", label: "Settings", icon: SettingsIcon },
 ];
 
-// Section Components (moved from previous flat structure)
 function ShadowModeSection() {
   const [testing, setTesting] = useState(false);
   const [log, setLog] = useState<string[]>([]);
@@ -423,9 +422,13 @@ export default function Workspace() {
       </aside>
       {/* Content panel */}
       <main className="flex-1 flex flex-col p-6 max-w-5xl mx-auto">
+        <div className="mb-6">
+          <Link to="/" className="inline-flex items-center text-ethic-green hover:text-ethic-green/90 font-semibold text-lg">
+            ← Back to Home
+          </Link>
+        </div>
         {renderActiveSection()}
       </main>
     </div>
   );
 }
-
